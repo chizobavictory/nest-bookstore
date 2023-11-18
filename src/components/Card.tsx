@@ -7,9 +7,9 @@ import EditBookModal from "./EditBookModal";
 interface CardProps {
   book: {
     id: number;
-    name: string;
-    description: string;
+    title: string;
     author: string;
+    description: string;
     link: string;
   };
   onEdit: () => void;
@@ -46,9 +46,12 @@ const Card: React.FC<CardProps> = ({ book, onEdit, onDelete }) => {
   return (
     <Box {...cardStyles}>
       <Text fontSize="xl" fontWeight="bold" mb="2">
-        {book.name}
+        {book.title}
       </Text>
-      <Text>{book.description}</Text>
+      <Text>Author: {book.author}</Text>
+      <Text>Description: {book.description}</Text>
+      <Text>Link: {book.link}</Text>
+
       <Flex mt="2">
         <Button onClick={handleEditClick} marginRight="2">
           <EditIcon />

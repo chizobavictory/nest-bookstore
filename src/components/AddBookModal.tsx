@@ -10,6 +10,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
@@ -24,9 +25,12 @@ interface AddBookModalProps {
     author: string;
     link: string;
   };
+  onBookCreate: (newBook: { id: number; name: string; description: string; author: string; link: string }) => void;
 }
 
-const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book }) => {
+const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBookCreate }) => {
+  const toast = useToast(); // Toast hook
+
   const [dto, setDto] = useState({
     title: book.name,
     author: book.author,
@@ -59,7 +63,21 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book }) =>
         config
       );
 
-      console.log(response.data.message);
+      console.log(response.data);
+      onBookCreate({
+        id: response.data.id, // Assuming the response contains the new book's id
+        name: dto.title,
+        description: dto.description,
+        author: dto.author,
+        link: dto.link,
+      });
+      toast({
+        title: "Bookmark Created",
+        description: response.data.message || "Bookmark created successfully.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error("Error creating bookmark:", error);
     }

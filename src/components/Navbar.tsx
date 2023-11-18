@@ -26,6 +26,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 interface Props {
   children: React.ReactNode;
 }
+interface Book {
+  id: number;
+  name: string;
+  description: string;
+  author: string;
+  link: string;
+}
 
 const Links = ["Dashboard", "Projects", "Team"];
 
@@ -47,14 +54,18 @@ const NavLink = (props: Props) => {
   );
 };
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onLoginSuccessCallback: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onLoginSuccessCallback }) => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
   const [isLoginSuccessful, setLoginSuccessful] = useState(false);
-
+  const [books, setBooks] = useState<Book[]>([]);
   const handleLoginSuccess = () => {
     // Set the login success state to true
     setLoginSuccessful(true);
@@ -127,6 +138,9 @@ const Navbar: React.FC = () => {
           description: "",
           author: "",
           link: "",
+        }}
+        onBookCreate={(newBook) => {
+          setBooks((prevBooks) => [...prevBooks, newBook]);
         }}
       />
       <LoginModal isOpen={isLoginModalOpen} onClose={() => setLoginModalOpen(false)} onLoginSuccess={handleLoginSuccess} />
