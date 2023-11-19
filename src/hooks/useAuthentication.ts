@@ -58,6 +58,7 @@ const useAuthentication = (onLoginSuccessCallback: () => void) => {
       duration: 3000,
       isClosable: true,
     });
+    navigate("/");
   };
 
   return {

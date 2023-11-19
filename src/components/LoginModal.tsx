@@ -20,27 +20,23 @@ import { useNavigate } from "react-router-dom";
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onLoginSuccess: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
-  const navigate = useNavigate();
-
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-
-  const toast = useToast(); // Toast hook
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const navigate = useNavigate();
+  const toast = useToast();
 
   const handleLogin = async () => {
     try {
-      setIsLoading(true); // Set loading to true
-
+      setIsLoading(true);
       const response = await axios.post("https://nest-bookmarks-api.onrender.com/auth/login", {
         email,
         password,
       });
-
       console.log(response.data);
       const token = response.data.access_token;
       const user = response.data.user;
@@ -54,7 +50,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
         isClosable: true,
       });
       navigate("/books");
-      onLoginSuccess();
       onClose();
     } catch (error: any) {
       console.error("Error during login:", error);
@@ -66,7 +61,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
         isClosable: true,
       });
     } finally {
-      setIsLoading(false); // Set loading to false in both success and error cases
+      setIsLoading(false); 
     }
   };
 

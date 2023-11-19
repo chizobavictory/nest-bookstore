@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Flex,
@@ -21,7 +21,7 @@ import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal"; // Import the SignupModal
 import logo from "../assets/nestjs-light.svg";
 import avatar from "../assets/profile-circle-fill.svg";
-import { useAuth0 } from "@auth0/auth0-react";
+import useAuthentication from "../hooks/useAuthentication";
 
 interface Props {
   children: React.ReactNode;
@@ -34,7 +34,7 @@ interface Book {
   link: string;
 }
 
-const Links = ["Dashboard", "Projects", "Team"];
+const Links = ["Signup", "Login", "Logout"];
 
 const NavLink = (props: Props) => {
   return (
@@ -55,16 +55,13 @@ const NavLink = (props: Props) => {
 };
 
 const Navbar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
-  const [isLoginSuccessful, setLoginSuccessful] = useState(false);
-  const [books, setBooks] = useState<Book[]>([]);
-  const handleLoginSuccess = () => {
-    setLoginSuccessful(true);
-  };
+  const [, setBooks] = useState<Book[]>([]);
+
+  const { isLoginSuccessful, handleLogout } = useAuthentication(() => {});
 
   return (
     <>
@@ -84,33 +81,35 @@ const Navbar = () => {
             <Text fontWeight="bold">Nest Book Store</Text>
           </HStack>
           <Flex alignItems={"center"}>
-            {isAuthenticated || isLoginSuccessful ? (
-              <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4} leftIcon={<AddIcon />} onClick={() => setModalOpen(true)}>
-                Add Book
-              </Button>
-            ) : (
+            {isLoginSuccessful && (
               <>
-                <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4} onClick={() => loginWithRedirect()}>
-                  Social Login
+                <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4} leftIcon={<AddIcon />} onClick={() => setModalOpen(true)}>
+                  Add Book
                 </Button>
-                <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4} onClick={() => setSignupModalOpen(true)}>
-                  Sign Up
-                </Button>
-                <Button variant={"solid"} colorScheme={"teal"} size={"sm"} onClick={() => setLoginModalOpen(true)}>
-                  Log In
+                <Button variant={"solid"} colorScheme={"orange"} size={"sm"} mr={4} onClick={handleLogout}>
+                  Log Out
                 </Button>
               </>
             )}
 
-            {(isAuthenticated || isLoginSuccessful) && (
+            {isLoginSuccessful ? (
               <Menu>
                 <MenuButton as={Button} rounded={"full"} variant={"link"} cursor={"pointer"} minW={0}>
                   <Avatar size={"sm"} src={avatar} />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={() => logout()}>Logout</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu>
+            ) : (
+              <>
+                <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4} onClick={() => setSignupModalOpen(true)}>
+                  Sign Up
+                </Button>
+                <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4} onClick={() => setLoginModalOpen(true)}>
+                  Log In
+                </Button>
+              </>
             )}
           </Flex>
         </Flex>
@@ -138,7 +137,7 @@ const Navbar = () => {
           setBooks((prevBooks) => [...prevBooks, newBook]);
         }}
       />
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setLoginModalOpen(false)} onLoginSuccess={handleLoginSuccess} />
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setLoginModalOpen(false)} />
       <SignupModal isOpen={isSignupModalOpen} onClose={() => setSignupModalOpen(false)} />
     </>
   );
