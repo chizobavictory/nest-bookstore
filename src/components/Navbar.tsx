@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -22,6 +22,7 @@ import SignupModal from "./SignupModal"; // Import the SignupModal
 import logo from "../assets/nestjs-light.svg";
 import avatar from "../assets/profile-circle-fill.svg";
 import { useAuth0 } from "@auth0/auth0-react";
+import useAuthentication from "../hooks/useAuthentication";
 
 interface Props {
   children: React.ReactNode;
@@ -54,11 +55,7 @@ const NavLink = (props: Props) => {
   );
 };
 
-interface NavbarProps {
-  onLoginSuccessCallback: () => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ onLoginSuccessCallback }) => {
+const Navbar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isModalOpen, setModalOpen] = useState(false);

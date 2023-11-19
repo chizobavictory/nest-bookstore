@@ -11,6 +11,7 @@ import {
   FormLabel,
   Input,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
@@ -18,17 +19,20 @@ import axios from "axios";
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onLoginSuccess: () => void; // New prop for handling login success
+  onLoginSuccess: () => void;
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const toast = useToast(); // Toast hook
 
   const handleLogin = async () => {
     try {
+      setIsLoading(true); // Set loading to true
+
       const response = await axios.post("https://nest-bookmarks-api.onrender.com/auth/login", {
         email,
         password,
@@ -65,6 +69,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
         duration: 5000,
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false); // Set loading to false in both success and error cases
     }
   };
 
@@ -85,10 +91,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleLogin}>
-            Login
+          <Button colorScheme="blue" mr={3} onClick={handleLogin} isLoading={isLoading}>
+            {isLoading ? <Spinner size="sm" color="white" /> : "Login"}
           </Button>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose} isDisabled={isLoading}>
+            Cancel
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

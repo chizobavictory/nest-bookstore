@@ -53,9 +53,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar onLoginSuccessCallback={function (): void {
-        throw new Error("Function not implemented.");
-      } }/>
+      <Navbar/>
 
       {!auth.isLoginSuccessful ? (
         <Box>
