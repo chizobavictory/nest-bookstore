@@ -15,6 +15,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface SignupModalProps {
   isOpen: boolean;
@@ -27,8 +28,9 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [signupResponse, setSignupResponse] = useState<{ userId: number; access_token: string } | null>(null);
+  const navigate = useNavigate();
 
-  const toast = useToast(); // Toast hook
+  const toast = useToast();
 
   const handleSignup = async () => {
     try {
@@ -38,16 +40,11 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
         email,
         password,
       });
-
       console.log(response.data);
-
-      // Set the signup response in state
       setSignupResponse({
         userId: response.data.userId,
         access_token: response.data.access_token,
       });
-
-      // Display success toast
       toast({
         title: "Signup Successful",
         description: response.data.message || "Confirmation OTP sent to email. Confirm your account to login.",
@@ -57,9 +54,6 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
       });
     } catch (error: any) {
       console.error("Error during signup:", error);
-      // Handle signup error
-
-      // Display error toast
       toast({
         title: "Signup Error",
         description: error.response?.data.message || "An error occurred during signup. Please try again.",
@@ -75,8 +69,6 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
   const handleConfirmSignup = async () => {
     try {
       setLoading(true);
-
-      // Use the userId from the signup response
       const userId = signupResponse?.userId;
 
       if (!userId) {
@@ -88,16 +80,11 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
         userId,
         otp,
       });
-
       console.log(confirmResponse.data);
-
-      // You may want to handle the confirmation success and close the modal
-
-      // Close the modal
+      navigate("/books");
       onClose();
     } catch (error) {
       console.error("Error during signup confirmation:", error);
-      // Handle confirmation error
     } finally {
       setLoading(false);
     }
