@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e6c13ad2.css",
+    "main.js": "/static/js/main.ce02bc81.js",
+    "static/media/nestjs-light.svg": "/static/media/nestjs-light.152d24e0e717e1545938d7216af38374.svg",
+    "static/media/postgresql.svg": "/static/media/postgresql.8e754d8c05294809070ee57f57bb1b44.svg",
+    "static/media/react.svg": "/static/media/react.f25869655b471f72dfeb36f728f764bb.svg",
+    "static/media/netlify.svg": "/static/media/netlify.0c720ee2e0fe4d45635cf973ba6b9d5a.svg",
+    "static/media/typescript.svg": "/static/media/typescript.64f2f409039645b5f095aa72e0771826.svg",
+    "index.html": "/index.html",
+    "static/media/render.svg": "/static/media/render.0cf12c4ff5c2bd6956817837183cfa4e.svg",
+    "static/media/prisma.svg": "/static/media/prisma.9e020d19e9bd7d1226210ca1aefcf387.svg",
+    "static/media/profile-circle-fill.svg": "/static/media/profile-circle-fill.cf7d0f6ade27f8b78e582c69f33b5fd2.svg",
+    "static/media/chakraui.svg": "/static/media/chakraui.738b166ff8fd1cf0d044b83e27ab4ef8.svg",
+    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
+    "main.ce02bc81.js.map": "/static/js/main.ce02bc81.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.ce02bc81.js"
+  ]
+}
