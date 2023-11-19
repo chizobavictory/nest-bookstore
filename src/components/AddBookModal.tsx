@@ -21,19 +21,19 @@ interface AddBookModalProps {
   onClose: () => void;
   book: {
     id: number;
-    name: string;
+    title: string;
     description: string;
     author: string;
     link: string;
   };
-  onBookCreate: (newBook: { id: number; name: string; description: string; author: string; link: string }) => void;
+  onBookCreate: (newBook: { id: number; title: string; description: string; author: string; link: string }) => void;
 }
 
 const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBookCreate }) => {
   const toast = useToast(); // Toast hook
 
   const [dto, setDto] = useState({
-    title: book.name,
+    title: book.title,
     author: book.author,
     description: book.description,
     link: book.link,
@@ -70,8 +70,8 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBo
 
       console.log(response.data);
       onBookCreate({
-        id: response.data.id, // Assuming the response contains the new book's id
-        name: dto.title,
+        id: response.data.id,
+        title: dto?.title,
         description: dto.description,
         author: dto.author,
         link: dto.link,

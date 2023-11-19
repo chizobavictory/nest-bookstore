@@ -28,14 +28,18 @@ const Books = () => {
     });
   };
 
+  const onBookCreate = (newBook: Book) => {
+    setBooks((prevBooks) => [...prevBooks, newBook]);
+  };
+  
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       console.error("Token not found. User may not be authenticated.");
-      setLoading(false); // Set loading to false if token is not found
+      setLoading(false);
       return;
     }
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -47,18 +51,18 @@ const Books = () => {
       .then((response) => {
         console.log("API Response:", response.data);
         setBooks(response.data.bookmarks);
-        setLoading(false); // Set loading to false after fetching books
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching books:", error);
-        setLoading(false); // Set loading to false in case of an error
+        setLoading(false);
       });
   }, []);
 
   return (
     <>
-      <Navbar />
-      {loading ? ( // Display loading spinner if still loading
+      <Navbar onBookCreate={onBookCreate} />
+      {loading ? (
         <Center mt={8}>
           <Spinner size="xl" />
           <Text mt={4}>Loading your books...</Text>

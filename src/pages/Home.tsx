@@ -1,10 +1,18 @@
 import Navbar from "../components/Navbar";
 import { Box, Text } from "@chakra-ui/react";
-
+interface Book {
+  id: number;
+  title: string;
+  description: string;
+  author: string;
+  link: string;
+}
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar onBookCreate={function (newBook: Book): void {
+        throw new Error("Function not implemented.");
+      } } />
       <Box padding="4" textAlign="center">
         <Text fontWeight="bold">Please log in to view the bookstore.</Text>
         <Box marginTop="4">

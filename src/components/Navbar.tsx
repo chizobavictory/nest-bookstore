@@ -28,7 +28,7 @@ interface Props {
 }
 interface Book {
   id: number;
-  name: string;
+  title: string;
   description: string;
   author: string;
   link: string;
@@ -54,12 +54,18 @@ const NavLink = (props: Props) => {
   );
 };
 
-const Navbar = () => {
+interface NavbarProps {
+  onBookCreate: (newBook: Book) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onBookCreate }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
-  const [, setBooks] = useState<Book[]>([]);
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const userEmail = user ? user.email : null;
 
   const { isLoginSuccessful, handleLogout } = useAuthentication(() => {});
 
@@ -98,7 +104,7 @@ const Navbar = () => {
                   <Avatar size={"sm"} src={avatar} />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  <MenuItem onClick={handleLogout}>{userEmail}</MenuItem>
                 </MenuList>
               </Menu>
             ) : (
@@ -128,14 +134,12 @@ const Navbar = () => {
         onClose={() => setModalOpen(false)}
         book={{
           id: 0,
-          name: "",
+          title: "",
           description: "",
           author: "",
           link: "",
         }}
-        onBookCreate={(newBook) => {
-          setBooks((prevBooks) => [...prevBooks, newBook]);
-        }}
+        onBookCreate={onBookCreate}
       />
       <LoginModal isOpen={isLoginModalOpen} onClose={() => setLoginModalOpen(false)} />
       <SignupModal isOpen={isSignupModalOpen} onClose={() => setSignupModalOpen(false)} />

@@ -69,7 +69,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, on
       );
 
       console.log("Book edited successfully:", response.data);
-      onEdit(response.data);
+      onEdit(response.data?.bookmark);
       toast({
         title: "Book edited successfully!",
         description: response.data.message,
