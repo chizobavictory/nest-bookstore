@@ -9,10 +9,9 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
+            <Route path="books" element={<Books />} />
           </Route>
-          <Route path="/books">
-            <Route index element={<Books />} />
-          </Route>
+          
         </Routes>
       </div>
     </ChakraProvider>
