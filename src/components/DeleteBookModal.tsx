@@ -6,7 +6,7 @@ interface DeleteBookModalProps {
   isOpen: boolean;
   onClose: () => void;
   onDelete: (bookId: number) => void;
-  bookId: number; // Add the bookId prop
+  bookId: number; 
 }
 
 const DeleteBookModal: React.FC<DeleteBookModalProps> = ({ isOpen, onClose, onDelete, bookId }) => {

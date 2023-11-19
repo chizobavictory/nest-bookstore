@@ -12,6 +12,7 @@ import {
   FormLabel,
   Input,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -24,12 +25,15 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
   const [signupResponse, setSignupResponse] = useState<{ userId: number; access_token: string } | null>(null);
 
   const toast = useToast(); // Toast hook
 
   const handleSignup = async () => {
     try {
+      setLoading(true);
+
       const response = await axios.post("https://nest-bookmarks-api.onrender.com/auth/signup", {
         email,
         password,
@@ -46,7 +50,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
       // Display success toast
       toast({
         title: "Signup Successful",
-        description: response.data.message ||"Confirmation OTP sent to email. Confirm your account to login.",
+        description: response.data.message || "Confirmation OTP sent to email. Confirm your account to login.",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -63,11 +67,15 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
         duration: 5000,
         isClosable: true,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleConfirmSignup = async () => {
     try {
+      setLoading(true);
+
       // Use the userId from the signup response
       const userId = signupResponse?.userId;
 
@@ -90,6 +98,8 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
     } catch (error) {
       console.error("Error during signup confirmation:", error);
       // Handle confirmation error
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,15 +130,17 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
         </ModalBody>
         <ModalFooter>
           {signupResponse ? (
-            <Button colorScheme="blue" mr={3} onClick={handleConfirmSignup}>
-              Confirm Sign Up
+            <Button colorScheme="blue" mr={3} onClick={handleConfirmSignup} isLoading={loading}>
+              {loading ? <Spinner size="sm" /> : "Confirm Sign Up"}
             </Button>
           ) : (
-            <Button colorScheme="blue" mr={3} onClick={handleSignup}>
-              Sign Up
+            <Button colorScheme="blue" mr={3} onClick={handleSignup} isLoading={loading}>
+              {loading ? <Spinner size="sm" /> : "Sign Up"}
             </Button>
           )}
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose} isDisabled={loading}>
+            Cancel
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

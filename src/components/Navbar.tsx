@@ -22,17 +22,12 @@ import SignupModal from "./SignupModal"; // Import the SignupModal
 import logo from "../assets/nestjs-light.svg";
 import avatar from "../assets/profile-circle-fill.svg";
 import useAuthentication from "../hooks/useAuthentication";
+import { Book } from "../types";
 
 interface Props {
   children: React.ReactNode;
 }
-interface Book {
-  id: number;
-  title: string;
-  description: string;
-  author: string;
-  link: string;
-}
+
 
 const Links = ["Signup", "Login", "Logout"];
 

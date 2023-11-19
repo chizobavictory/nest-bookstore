@@ -3,14 +3,8 @@ import { Grid, Text, Spinner, Center } from "@chakra-ui/react";
 import axios from "axios";
 import Card from "../components/Card";
 import Navbar from "../components/Navbar";
+import { Book } from "../types";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  description: string;
-  link: string;
-}
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);

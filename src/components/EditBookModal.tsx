@@ -12,17 +12,12 @@ import {
   FormLabel,
   Input,
   Spinner,
-  useToast, // Import Spinner component
+  useToast, 
 } from "@chakra-ui/react";
 import axios from "axios";
+import { Book } from "../types";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  description: string;
-  link: string;
-}
+
 interface EditBookModalProps {
   isOpen: boolean;
   onClose: () => void;

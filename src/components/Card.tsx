@@ -3,14 +3,9 @@ import { Text, Button, Flex, Box } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import DeleteBookModal from "./DeleteBookModal";
 import EditBookModal from "./EditBookModal";
+import { Book } from "../types";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  description: string;
-  link: string;
-}
+
 interface CardProps {
   book: {
     id: number;
