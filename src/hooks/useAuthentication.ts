@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const useAuthentication = (onLoginSuccessCallback: () => void) => {
+  const navigate = useNavigate();
   const toast = useToast();
   const [isLoginSuccessful, setLoginSuccessful] = useState(false);
 
@@ -33,6 +35,7 @@ const useAuthentication = (onLoginSuccessCallback: () => void) => {
         duration: 3000,
         isClosable: true,
       });
+      navigate("/books");
     } catch (error) {
       console.error("Error during login:", error);
       toast({

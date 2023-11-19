@@ -22,7 +22,6 @@ import SignupModal from "./SignupModal"; // Import the SignupModal
 import logo from "../assets/nestjs-light.svg";
 import avatar from "../assets/profile-circle-fill.svg";
 import { useAuth0 } from "@auth0/auth0-react";
-import useAuthentication from "../hooks/useAuthentication";
 
 interface Props {
   children: React.ReactNode;
@@ -64,7 +63,6 @@ const Navbar = () => {
   const [isLoginSuccessful, setLoginSuccessful] = useState(false);
   const [books, setBooks] = useState<Book[]>([]);
   const handleLoginSuccess = () => {
-    // Set the login success state to true
     setLoginSuccessful(true);
   };
 

@@ -11,7 +11,8 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Spinner, // Import Spinner component
+  Spinner,
+  useToast, // Import Spinner component
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -33,8 +34,8 @@ const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, on
   const [title, setTitle] = useState(book.title);
   const [author, setAuthor] = useState(book.author);
   const [link, setLink] = useState(book.link);
-  const [loading, setLoading] = useState(false); // New loading state
-
+  const [loading, setLoading] = useState(false); 
+  const toast = useToast(); 
   const handleEditBook = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -47,8 +48,6 @@ const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, on
           Authorization: `Bearer ${token}`,
         },
       };
-
-      // Set loading to true when the button is clicked
       setLoading(true);
 
       const response = await axios.patch(
@@ -67,12 +66,29 @@ const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, on
       // Trigger the onEdit callback to update the state or perform other actions
       onEdit();
 
+      // Display success toast
+      toast({
+        title: "Book edited successfully!",
+        description: response.data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
       // Close the modal
       onClose();
     } catch (error) {
       console.error("Error editing book:", error);
+
+      // Display error toast
+      toast({
+        title: "Error editing book",
+        description: "An error occurred while editing the book. Please try again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     } finally {
-      // Set loading back to false when the request is complete (success or error)
       setLoading(false);
     }
   };

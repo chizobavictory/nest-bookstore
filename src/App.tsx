@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import { ChakraProvider } from "@chakra-ui/react";
+import Books from "./pages/Books";
 function App() {
   return (
     <ChakraProvider>
@@ -8,6 +9,9 @@ function App() {
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
+          </Route>
+          <Route path="/books">
+            <Route index element={<Books />} />
           </Route>
         </Routes>
       </div>

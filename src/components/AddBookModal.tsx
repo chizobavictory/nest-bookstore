@@ -11,6 +11,7 @@ import {
   FormLabel,
   Input,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
@@ -38,8 +39,12 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBo
     link: book.link,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleCreateBookmark = async () => {
     try {
+      setIsLoading(true);
+
       // Retrieve the token from local storage
       const token = localStorage.getItem("token");
 
@@ -80,6 +85,8 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBo
       });
     } catch (error) {
       console.error("Error creating bookmark:", error);
+    } finally {
+      setIsLoading(false);
     }
 
     // Clear the input fields and close the modal
@@ -118,8 +125,8 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBo
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleCreateBookmark}>
-            Create Bookmark
+          <Button colorScheme="blue" mr={3} onClick={handleCreateBookmark} isLoading={isLoading}>
+            {isLoading ? <Spinner size="sm" /> : "Create Bookmark"}
           </Button>
           <Button onClick={onClose}>Cancel</Button>
         </ModalFooter>

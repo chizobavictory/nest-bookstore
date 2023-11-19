@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Loading state
@@ -43,8 +46,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
       const user = response.data.user;
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("token", token);
-
-      // Display success toast with the message from the backend
       toast({
         title: "Login Successful",
         description: response.data.message || "User login successful.",
@@ -52,16 +53,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
         duration: 5000,
         isClosable: true,
       });
-
-      // Call the onLoginSuccess callback
+      navigate("/books");
       onLoginSuccess();
-
-      // Close the modal
       onClose();
     } catch (error: any) {
       console.error("Error during login:", error);
-
-      // Display error toast with the message from the backend
       toast({
         title: "Login Error",
         description: error.response?.data.message || "An error occurred during login. Please try again.",
