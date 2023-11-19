@@ -16,9 +16,17 @@ const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true); // Added loading state
 
-  const onEdit = () => {};
+  const onEdit = (editedBook: Book) => {
+    setBooks((prevBooks) => {
+      return prevBooks.map((book) => (book.id === editedBook.id ? editedBook : book));
+    });
+  };
 
-  const onDelete = () => {};
+  const onDelete = (deletedBookId: number) => {
+    setBooks((prevBooks) => {
+      return prevBooks.filter((book) => book.id !== deletedBookId);
+    });
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -58,7 +66,7 @@ const Books = () => {
       ) : Array.isArray(books) && books.length > 0 ? (
         <Grid templateColumns="repeat(2, 1fr)" gap="4" padding={4}>
           {books.map((book: Book) => (
-            <Card key={book.id} book={book} onEdit={onEdit} onDelete={onDelete} />
+            <Card key={book.id} book={book} onEdit={onEdit} onDelete={() => onDelete(book.id)} />
           ))}
         </Grid>
       ) : (

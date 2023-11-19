@@ -16,6 +16,13 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 
+interface Book {
+  id: number;
+  title: string;
+  author: string;
+  description: string;
+  link: string;
+}
 interface EditBookModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -26,7 +33,7 @@ interface EditBookModalProps {
     description: string;
     link: string;
   };
-  onEdit: () => void;
+  onEdit: (editedBook: Book) => void;
 }
 
 const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, onEdit }) => {
@@ -34,8 +41,8 @@ const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, on
   const [title, setTitle] = useState(book.title);
   const [author, setAuthor] = useState(book.author);
   const [link, setLink] = useState(book.link);
-  const [loading, setLoading] = useState(false); 
-  const toast = useToast(); 
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
   const handleEditBook = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -62,11 +69,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, on
       );
 
       console.log("Book edited successfully:", response.data);
-
-      // Trigger the onEdit callback to update the state or perform other actions
-      onEdit();
-
-      // Display success toast
+      onEdit(response.data);
       toast({
         title: "Book edited successfully!",
         description: response.data.message,
@@ -74,13 +77,9 @@ const EditBookModal: React.FC<EditBookModalProps> = ({ isOpen, onClose, book, on
         duration: 3000,
         isClosable: true,
       });
-
-      // Close the modal
       onClose();
     } catch (error) {
       console.error("Error editing book:", error);
-
-      // Display error toast
       toast({
         title: "Error editing book",
         description: "An error occurred while editing the book. Please try again.",

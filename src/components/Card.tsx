@@ -4,6 +4,13 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import DeleteBookModal from "./DeleteBookModal";
 import EditBookModal from "./EditBookModal";
 
+interface Book {
+  id: number;
+  title: string;
+  author: string;
+  description: string;
+  link: string;
+}
 interface CardProps {
   book: {
     id: number;
@@ -12,7 +19,7 @@ interface CardProps {
     description: string;
     link: string;
   };
-  onEdit: () => void;
+  onEdit: (editedBook: Book) => void;
   onDelete: () => void;
 }
 
@@ -63,7 +70,7 @@ const Card: React.FC<CardProps> = ({ book, onEdit, onDelete }) => {
 
       {isEditModalOpen && <EditBookModal isOpen={isEditModalOpen} onClose={closeEditModal} book={book} onEdit={onEdit} />}
 
-      {isDeleteModalOpen && <DeleteBookModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} onDelete={onDelete} />}
+      {isDeleteModalOpen && <DeleteBookModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} onDelete={onDelete} bookId={book.id} />}
     </Box>
   );
 };
