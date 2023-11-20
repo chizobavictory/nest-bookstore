@@ -79,7 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({ onBookCreate }) => {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={"center"} onClick={redirectToHome}>
+          <HStack spacing={8} alignItems={"center"} onClick={redirectToHome} style={{ cursor: "pointer" }}>
             <Box>
               <img src={logo} alt="logo" />
             </Box>
