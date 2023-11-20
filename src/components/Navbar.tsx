@@ -23,11 +23,11 @@ import logo from "../assets/nestjs-light.svg";
 import avatar from "../assets/profile-circle-fill.svg";
 import useAuthentication from "../hooks/useAuthentication";
 import { Book } from "../types";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactNode;
 }
-
 
 const Links = ["Signup", "Login", "Logout"];
 
@@ -61,8 +61,12 @@ const Navbar: React.FC<NavbarProps> = ({ onBookCreate }) => {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
   const userEmail = user ? user.email : null;
+  const navigate = useNavigate();
 
   const { isLoginSuccessful, handleLogout } = useAuthentication(() => {});
+  const redirectToHome = () => {
+    navigate("/"); // Use navigate to redirect to the home page
+  };
 
   return (
     <>
@@ -75,7 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({ onBookCreate }) => {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={"center"}>
+          <HStack spacing={8} alignItems={"center"} onClick={redirectToHome}>
             <Box>
               <img src={logo} alt="logo" />
             </Box>
