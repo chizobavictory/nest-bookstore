@@ -4,11 +4,13 @@ import axios from "axios";
 import Card from "../components/Card";
 import Navbar from "../components/Navbar";
 import { Book } from "../types";
-
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const onEdit = (editedBook: Book) => {
     setBooks((prevBooks) => {
@@ -24,8 +26,10 @@ const Books = () => {
 
   const onBookCreate = (newBook: Book) => {
     setBooks((prevBooks) => [...prevBooks, newBook]);
+    if (location.pathname !== "/books") {
+      navigate("/books");
+    }
   };
-  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
