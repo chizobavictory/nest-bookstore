@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface AddBookModalProps {
   isOpen: boolean;
@@ -31,6 +32,8 @@ interface AddBookModalProps {
 
 const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBookCreate }) => {
   const toast = useToast(); // Toast hook
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [dto, setDto] = useState({
     title: book.title,
@@ -54,21 +57,17 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBo
         return;
       }
 
-      // Include the token in the request headers
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
 
-      // Make the API request with the token
       const response = await axios.post(
         "https://nest-bookmarks-api.onrender.com/bookmarks",
         dto, // Send only the bookmark information
         config
       );
-
-      console.log(response.data);
       onBookCreate({
         id: response.data.id,
         title: dto?.title,
@@ -83,6 +82,9 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose, book, onBo
         duration: 5000,
         isClosable: true,
       });
+      if (location.pathname !== "/books") {
+        navigate("/books");
+      }
     } catch (error) {
       console.error("Error creating bookmark:", error);
     } finally {
