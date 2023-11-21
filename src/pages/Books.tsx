@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState<{ [key: number]: string }>({});
+  const [, setImages] = useState<{ [key: number]: string }>({});
   const navigate = useNavigate();
   const location = useLocation();
 
