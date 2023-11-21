@@ -50,6 +50,9 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({ onUpload, bookmar
           isClosable: true,
         });
         window.location.reload();
+        setTimeout(() => {
+          window.scrollTo(0, document.body.scrollHeight);
+        }, 12000);
       } catch (error) {
         console.error("Error uploading image:", error);
         toast({
