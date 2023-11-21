@@ -26,7 +26,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -61,7 +61,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         isClosable: true,
       });
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
