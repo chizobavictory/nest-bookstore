@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input, Spinner, useToast } from "@chakra-ui/react";
+import { Box, Button, Input, Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 
 interface ImageUploadButtonProps {
@@ -70,10 +70,41 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({ onUpload, bookmar
 
   return (
     <div>
-      <Input type="file" accept="image/*" onChange={handleFileChange} mb="2" />
-      <Button onClick={handleUploadClick} disabled={!selectedFile || loading}>
-        {loading ? <Spinner size="sm" color="white" /> : "Upload Image"}
-      </Button>
+      <Box mb="2" position="relative" display="inline-block">
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          opacity="0"
+          position="absolute"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          cursor="pointer"
+        />
+        <Button
+          as="label" // Use the Button component as a label
+          htmlFor="file-input" // Match the htmlFor with the Input's id
+          position="absolute"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          onClick={handleUploadClick}
+          borderWidth="1px"
+          borderRadius="md"
+          borderColor="gray.300"
+          backgroundColor="white"
+          zIndex="1"
+          cursor="pointer"
+        >
+          {loading ? <Spinner size="sm" color="gray.800" /> : "Upload Image"}
+        </Button>
+      </Box>
     </div>
   );
 };
