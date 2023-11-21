@@ -70,10 +70,10 @@ const Card: React.FC<CardProps> = ({ book, onEdit, onDelete, onUpload, imageUrl 
 
       {Array.isArray(imageUrl)
         ? imageUrl.map((url, index) => (
-            <img key={index} src={url} alt={`Book Cover ${index}`} style={{ width: "100%", height: "auto", marginTop: "8px" }} />
+            <img key={index} src={url} alt={`Book Cover ${index}`} style={{ width: "100%", height: "30%", marginTop: "8px", objectFit: "cover" }} />
           ))
-        : imageUrl && <img src={imageUrl} alt="Book Cover" style={{ width: "100%", height: "auto" }} />}
-        
+        : imageUrl && <img src={imageUrl} alt="Book Cover" style={{ width: "100%", height: "30%" }} />}
+
       {isEditModalOpen && <EditBookModal isOpen={isEditModalOpen} onClose={closeEditModal} book={book} onEdit={onEdit} />}
 
       {isDeleteModalOpen && <DeleteBookModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} onDelete={onDelete} bookId={book.id} />}
