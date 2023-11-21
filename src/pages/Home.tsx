@@ -10,6 +10,7 @@ import react from "../assets/react.svg";
 import typescript from "../assets/typescript.svg";
 import render from "../assets/render.svg";
 import netlify from "../assets/netlify.svg";
+import cloudinary from "../assets/cloudinary-icon.svg";
 
 const Home = () => {
   return (
@@ -27,7 +28,7 @@ const Home = () => {
             <br />
             <br />
             The backend is developed with NestJS on TypeScript, the database is Postgres, and the ORM used is Prisma. I hosted the database and
-            backend on Render, and includes email notifications for signup.
+            backend on Render, and includes email notifications for signup. Images are saved on Cloudinary.
           </Text>
         </Box>
 
@@ -55,7 +56,10 @@ const Home = () => {
             <img src={prisma} alt="Prisma" />
           </Box>
           <Box mx={2} textAlign="center">
-            <img src={render} alt="Prisma" />
+            <img src={render} alt="render" />
+          </Box>
+          <Box mx={2} textAlign="center">
+            <img src={cloudinary} alt="cloudinary" />
           </Box>
         </Flex>
       </Box>

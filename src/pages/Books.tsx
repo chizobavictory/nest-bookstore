@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState<{ [key: number]: string }>({});
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,6 +30,10 @@ const Books = () => {
     if (location.pathname !== "/books") {
       navigate("/books");
     }
+  };
+
+  const onImageUpload = (imageUrl: string) => {
+    setImages((prevImages) => ({ ...prevImages, [imageUrl]: imageUrl }));
   };
 
   useEffect(() => {
@@ -68,7 +73,14 @@ const Books = () => {
       ) : Array.isArray(books) && books.length > 0 ? (
         <Grid templateColumns="repeat(2, 1fr)" gap="4" padding={4}>
           {books.map((book: Book) => (
-            <Card key={book.id} book={book} onEdit={onEdit} onDelete={() => onDelete(book.id)} />
+            <Card
+              key={book.id}
+              book={book}
+              onEdit={onEdit}
+              onDelete={() => onDelete(book.id)}
+              onUpload={onImageUpload}
+              imageUrl={book.images || []}
+            />
           ))}
         </Grid>
       ) : (

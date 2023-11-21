@@ -4,5 +4,6 @@ export interface Book {
   author: string;
   description: string;
   link: string;
+  images?: string[]
 }
 

@@ -4,7 +4,7 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import DeleteBookModal from "./DeleteBookModal";
 import EditBookModal from "./EditBookModal";
 import { Book } from "../types";
-
+import ImageUploadButton from "./ImageUploadButton";
 
 interface CardProps {
   book: {
@@ -13,12 +13,15 @@ interface CardProps {
     author: string;
     description: string;
     link: string;
+    images?: string[];
   };
   onEdit: (editedBook: Book) => void;
   onDelete: () => void;
+  onUpload: (imageUrl: string) => void;
+  imageUrl: string[];
 }
 
-const Card: React.FC<CardProps> = ({ book, onEdit, onDelete }) => {
+const Card: React.FC<CardProps> = ({ book, onEdit, onDelete, onUpload, imageUrl }) => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
@@ -55,6 +58,8 @@ const Card: React.FC<CardProps> = ({ book, onEdit, onDelete }) => {
       <Text>Link: {book.link}</Text>
 
       <Flex mt="2">
+        <ImageUploadButton onUpload={onUpload} bookmarkId={book.id} />
+
         <Button onClick={handleEditClick} marginRight="2">
           <EditIcon />
         </Button>
@@ -63,6 +68,12 @@ const Card: React.FC<CardProps> = ({ book, onEdit, onDelete }) => {
         </Button>
       </Flex>
 
+      {Array.isArray(imageUrl)
+        ? imageUrl.map((url, index) => (
+            <img key={index} src={url} alt={`Book Cover ${index}`} style={{ width: "100%", height: "auto", marginTop: "8px" }} />
+          ))
+        : imageUrl && <img src={imageUrl} alt="Book Cover" style={{ width: "100%", height: "auto" }} />}
+        
       {isEditModalOpen && <EditBookModal isOpen={isEditModalOpen} onClose={closeEditModal} book={book} onEdit={onEdit} />}
 
       {isDeleteModalOpen && <DeleteBookModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} onDelete={onDelete} bookId={book.id} />}
