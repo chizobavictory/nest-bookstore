@@ -30,16 +30,12 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({ onUpload, bookmar
         const formData = new FormData();
         formData.append("file", selectedFile);
 
-        const imageUploadResponse = await axios.post(
-          `https://nest-bookmarks-api.onrender.com/bookmarks/${bookmarkId}/upload-image`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const imageUploadResponse = await axios.post(`https://nest-bookmarks-api.onrender.com/bookmarks/${bookmarkId}/upload-image`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         const imageUrl = imageUploadResponse.data.imageUrl;
         onUpload(imageUrl);
@@ -53,6 +49,7 @@ const ImageUploadButton: React.FC<ImageUploadButtonProps> = ({ onUpload, bookmar
           duration: 3000,
           isClosable: true,
         });
+        window.location.reload();
       } catch (error) {
         console.error("Error uploading image:", error);
         toast({

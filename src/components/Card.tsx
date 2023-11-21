@@ -54,28 +54,26 @@ const Card: React.FC<CardProps> = ({ book, onEdit, onDelete, onUpload, imageUrl 
         {book.title}
       </Text>
       <Text>Author: {book.author}</Text>
-      <Text>Description: {book.description}</Text>
+      <Text whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" mb="2">
+        Description: {book.description}
+      </Text>{" "}
       <Text>Link: {book.link}</Text>
-
       <Flex mt="2">
         <ImageUploadButton onUpload={onUpload} bookmarkId={book.id} />
 
-        <Button onClick={handleEditClick} marginRight="2">
+        <Button onClick={handleEditClick} marginLeft={2} marginRight="2">
           <EditIcon />
         </Button>
         <Button onClick={handleDeleteClick}>
           <DeleteIcon />
         </Button>
       </Flex>
-
       {Array.isArray(imageUrl)
         ? imageUrl.map((url, index) => (
             <img key={index} src={url} alt={`Book Cover ${index}`} style={{ width: "100%", height: "200px", marginTop: "8px", objectFit: "cover" }} />
           ))
         : imageUrl && <img src={imageUrl} alt="Book Cover" style={{ width: "100%", height: "200px" }} />}
-
       {isEditModalOpen && <EditBookModal isOpen={isEditModalOpen} onClose={closeEditModal} book={book} onEdit={onEdit} />}
-
       {isDeleteModalOpen && <DeleteBookModal isOpen={isDeleteModalOpen} onClose={closeDeleteModal} onDelete={onDelete} bookId={book.id} />}
     </Box>
   );
